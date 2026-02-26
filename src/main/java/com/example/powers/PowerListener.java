@@ -96,16 +96,15 @@ public class PowerListener implements Listener {
             powerManager.addMastery(player, PowerType.SKY_SENTINEL, 0.35);
             if (awakened(player, PowerType.SKY_SENTINEL)) {
                 ring(player, Particle.CLOUD, 10);
-                player.setFlyingFallDamage(false);
                 base(player, PowerType.SKY_SENTINEL, PotionEffectType.SPEED, 1, 45);
             }
         }
 
         if (player.isSprinting()) {
-            base(player, PowerType.DUNE_STRIDER, PotionEffectType.SPEED, 0, 45);
+            base(player, PowerType.SKY_SENTINEL, PotionEffectType.SPEED, 0, 45);
             base(player, PowerType.BLAZE_RUNNER, PotionEffectType.SPEED, 0, 45);
             base(player, PowerType.SOLAR_MONK, PotionEffectType.HASTE, 0, 45);
-            powerManager.addMastery(player, PowerType.DUNE_STRIDER, 0.5);
+            powerManager.addMastery(player, PowerType.SKY_SENTINEL, 0.5);
             powerManager.addMastery(player, PowerType.BLAZE_RUNNER, 0.45);
             powerManager.addMastery(player, PowerType.SOLAR_MONK, 0.4);
             if (awakened(player, PowerType.BLAZE_RUNNER)) {
@@ -121,9 +120,9 @@ public class PowerListener implements Listener {
 
         if (player.isSneaking()) {
             base(player, PowerType.SHADOW_SPECTER, PotionEffectType.INVISIBILITY, 0, 30);
-            base(player, PowerType.MIRROR_CLOAK, PotionEffectType.INVISIBILITY, 0, 30);
+            base(player, PowerType.SHADOW_SPECTER, PotionEffectType.INVISIBILITY, 0, 30);
             powerManager.addMastery(player, PowerType.SHADOW_SPECTER, 0.45);
-            powerManager.addMastery(player, PowerType.MIRROR_CLOAK, 0.45);
+            powerManager.addMastery(player, PowerType.SHADOW_SPECTER, 0.45);
         }
 
         if (player.isGliding()) {
@@ -141,12 +140,12 @@ public class PowerListener implements Listener {
         Player player = event.getPlayer();
         Material type = event.getBlock().getType();
 
-        if ((type == Material.OBSIDIAN || type == Material.CRYING_OBSIDIAN) && has(player, PowerType.OBSIDIAN_SPINE)) {
-            powerManager.addMastery(player, PowerType.OBSIDIAN_SPINE, 1.8);
+        if ((type == Material.OBSIDIAN || type == Material.CRYING_OBSIDIAN) && has(player, PowerType.TITAN_GUARD)) {
+            powerManager.addMastery(player, PowerType.TITAN_GUARD, 1.8);
             player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 60, 0, true, false, true));
             pulse(player, Particle.CLOUD, 10);
         }
-        if ((type == Material.QUARTZ_ORE || type == Material.NETHER_QUARTZ_ORE || type == Material.AMETHYST_BLOCK) && has(player, PowerType.CRYSTAL_ARCHER)) {
+        if ((type == Material.NETHER_QUARTZ_ORE || type == Material.AMETHYST_BLOCK) && has(player, PowerType.CRYSTAL_ARCHER)) {
             powerManager.addMastery(player, PowerType.CRYSTAL_ARCHER, 1.4);
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 60, 0, true, false, true));
             pulse(player, Particle.ENCHANT, 8);
@@ -156,8 +155,8 @@ public class PowerListener implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 60, 0, true, false, true));
             pulse(player, Particle.FLAME, 8);
         }
-        if ((type == Material.SCULK || type == Material.SCULK_SENSOR || type == Material.SCULK_CATALYST) && has(player, PowerType.WARDEN_PULSE)) {
-            powerManager.addMastery(player, PowerType.WARDEN_PULSE, 1.7);
+        if ((type == Material.SCULK || type == Material.SCULK_SENSOR || type == Material.SCULK_CATALYST) && has(player, PowerType.GEARMIND)) {
+            powerManager.addMastery(player, PowerType.GEARMIND, 1.7);
             player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 60, 0, true, false, true));
         }
         if ((type == Material.REDSTONE_ORE || type == Material.DEEPSLATE_REDSTONE_ORE || type == Material.COPPER_ORE) && has(player, PowerType.GEARMIND)) {
@@ -172,14 +171,14 @@ public class PowerListener implements Listener {
         Entity target = event.getEntity();
 
         powerManager.addMastery(player, PowerType.ARC_PUNCHER, 0.6);
-        powerManager.addMastery(player, PowerType.RAVAGER_STANCE, 0.7);
+        powerManager.addMastery(player, PowerType.THUNDERCLAP, 0.7);
         powerManager.addMastery(player, PowerType.RIFT_BLADE, 0.6);
 
         if (has(player, PowerType.ARC_PUNCHER) && random.nextDouble() < 0.12) {
             event.setDamage(event.getDamage() + 1.0);
             pulse(player, Particle.ELECTRIC_SPARK, 10);
         }
-        if (has(player, PowerType.RAVAGER_STANCE)) {
+        if (has(player, PowerType.THUNDERCLAP)) {
             event.setDamage(event.getDamage() * 1.08);
         }
         if (has(player, PowerType.THUNDERCLAP) && random.nextDouble() < 0.15) {
@@ -240,8 +239,8 @@ public class PowerListener implements Listener {
             powerManager.addMastery(player, PowerType.BULWARK, 0.7);
             event.setDamage(event.getDamage() * 0.95);
         }
-        if (has(player, PowerType.PRISMATIC_HIDE)) {
-            powerManager.addMastery(player, PowerType.PRISMATIC_HIDE, 0.8);
+        if (has(player, PowerType.BULWARK)) {
+            powerManager.addMastery(player, PowerType.BULWARK, 0.8);
             event.setDamage(event.getDamage() * 0.96);
         }
         if (has(player, PowerType.THORN_GUARDIAN) && event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
@@ -296,8 +295,8 @@ public class PowerListener implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 70, 0, true, false, true));
             pulse(player, Particle.HEART, 6);
         }
-        if (has(player, PowerType.BEEKEEPER)) {
-            powerManager.addMastery(player, PowerType.BEEKEEPER, 1.5);
+        if (has(player, PowerType.WILD_CALLER)) {
+            powerManager.addMastery(player, PowerType.WILD_CALLER, 1.5);
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 70, 0, true, false, true));
             pulse(player, Particle.HEART, 6);
         }
@@ -308,8 +307,8 @@ public class PowerListener implements Listener {
         if (event.getHand() != EquipmentSlot.HAND) return;
         Player player = event.getPlayer();
         Material inHand = player.getInventory().getItemInMainHand().getType();
-        if ((inHand == Material.TORCH || inHand == Material.LANTERN || inHand == Material.SOUL_LANTERN) && has(player, PowerType.LANTERN_GAZE)) {
-            powerManager.addMastery(player, PowerType.LANTERN_GAZE, 0.8);
+        if ((inHand == Material.TORCH || inHand == Material.LANTERN || inHand == Material.SOUL_LANTERN) && has(player, PowerType.LIGHT_BRINGER)) {
+            powerManager.addMastery(player, PowerType.LIGHT_BRINGER, 0.8);
             player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 0, true, false, true));
             pulse(player, Particle.END_ROD, 6);
         }
@@ -318,7 +317,7 @@ public class PowerListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onInvisibilityGate(EntityPotionEffectEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
-        if (event.getModifiedType() == PotionEffectType.INVISIBILITY && !awakened(player, PowerType.MIRROR_CLOAK) && !has(player, PowerType.MIRROR_CLOAK)) {
+        if (event.getModifiedType() == PotionEffectType.INVISIBILITY && !awakened(player, PowerType.SHADOW_SPECTER) && !has(player, PowerType.SHADOW_SPECTER)) {
             event.setCancelled(true);
         }
     }
