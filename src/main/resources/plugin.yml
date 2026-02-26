@@ -1,0 +1,13 @@
+name: PowerPlugin
+main: com.example.powers.PowerPlugin
+version: 1.0.0
+api-version: '1.21'
+authors: [Codex]
+commands:
+  power:
+    description: Manage player powers
+    usage: /power <add|remove|awaken|list>
+    permission: power.admin
+permissions:
+  power.admin:
+    default: op
