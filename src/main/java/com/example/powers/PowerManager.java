@@ -148,21 +148,26 @@ public class PowerManager {
     }
 
     private void applyAwakenedPassives(Player player) {
-        applyIfAwakened(player, PowerType.WIND_STEP, PotionEffectType.SPEED, 1);
-        applyIfAwakened(player, PowerType.STONE_SKIN, PotionEffectType.RESISTANCE, 1);
-        applyIfAwakened(player, PowerType.TIDE_CALLER, PotionEffectType.DOLPHINS_GRACE, 1);
+        applyIfAwakened(player, PowerType.WIND_STEP, PotionEffectType.SPEED, 0);
+        applyIfAwakened(player, PowerType.STONE_SKIN, PotionEffectType.RESISTANCE, 0);
+        applyIfAwakened(player, PowerType.TIDE_CALLER, PotionEffectType.DOLPHINS_GRACE, 0);
         applyIfAwakened(player, PowerType.SHADOW_VEIL, PotionEffectType.INVISIBILITY, 0);
         applyIfAwakened(player, PowerType.MOONLIT_HUNTER, PotionEffectType.NIGHT_VISION, 0);
         applyIfAwakened(player, PowerType.VOID_GLIDE, PotionEffectType.SLOW_FALLING, 0);
         applyIfAwakened(player, PowerType.FLAME_HEART, PotionEffectType.FIRE_RESISTANCE, 0);
-        applyIfAwakened(player, PowerType.SUNFORGE, PotionEffectType.HASTE, 1);
+        applyIfAwakened(player, PowerType.SUNFORGE, PotionEffectType.HASTE, 0);
         applyIfAwakened(player, PowerType.ARCANE_ECHO, PotionEffectType.LUCK, 0);
         applyIfAwakened(player, PowerType.BEAST_BOND, PotionEffectType.HERO_OF_THE_VILLAGE, 0);
-        applyIfAwakened(player, PowerType.GRAVITY_WELL, PotionEffectType.JUMP_BOOST, 1);
+        applyIfAwakened(player, PowerType.GRAVITY_WELL, PotionEffectType.JUMP_BOOST, 0);
         applyIfAwakened(player, PowerType.STORM_EYE, PotionEffectType.WATER_BREATHING, 0);
         applyIfAwakened(player, PowerType.BLOODRUSH, PotionEffectType.STRENGTH, 0);
         applyIfAwakened(player, PowerType.AETHER_SHIFT, PotionEffectType.SPEED, 0);
         applyIfAwakened(player, PowerType.IRON_STOMACH, PotionEffectType.SATURATION, 0);
+        applyIfAwakened(player, PowerType.NATURE_TOUCH, PotionEffectType.SATURATION, 0);
+        applyIfAwakened(player, PowerType.FROST_BLOOM, PotionEffectType.RESISTANCE, 0);
+        applyIfAwakened(player, PowerType.CRYSTAL_MIND, PotionEffectType.HASTE, 0);
+        applyIfAwakened(player, PowerType.METAL_JAW, PotionEffectType.REGENERATION, 0);
+        applyIfAwakened(player, PowerType.THUNDER_PULSE, PotionEffectType.SPEED, 0);
     }
 
     private void applyIfAwakened(Player player, PowerType type, PotionEffectType effectType, int amplifier) {

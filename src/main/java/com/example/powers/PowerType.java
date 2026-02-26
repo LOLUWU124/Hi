@@ -5,26 +5,26 @@ import java.util.Locale;
 import java.util.Optional;
 
 public enum PowerType {
-    METAL_JAW("Metal Jaw", "Eat any item and gain mastery from rarity."),
-    WIND_STEP("Wind Step", "Move quickly and master speed by sprinting."),
-    STONE_SKIN("Stone Skin", "Become tougher as you endure damage."),
-    FLAME_HEART("Flame Heart", "Burn with power and ignite enemies."),
-    TIDE_CALLER("Tide Caller", "Grow stronger while swimming."),
-    SHADOW_VEIL("Shadow Veil", "Master stealth through sneaking."),
-    THUNDER_PULSE("Thunder Pulse", "Build charge by striking foes."),
-    NATURE_TOUCH("Nature Touch", "Harvest plants and logs for mastery."),
-    FROST_BLOOM("Frost Bloom", "Grow power by traveling frozen lands."),
-    SUNFORGE("Sunforge", "Mine by daylight to fill your mastery."),
-    MOONLIT_HUNTER("Moonlit Hunter", "Fight at night to improve this power."),
-    ARCANE_ECHO("Arcane Echo", "Convert experience into mastery."),
-    BEAST_BOND("Beast Bond", "Interact with animals to bond deeper."),
-    VOID_GLIDE("Void Glide", "Survive falls and glides to learn control."),
-    CRYSTAL_MIND("Crystal Mind", "Shape resources into refined knowledge."),
-    GRAVITY_WELL("Gravity Well", "Control knockback and slam enemies."),
-    STORM_EYE("Storm Eye", "Harness storms and electric surges."),
-    BLOODRUSH("Bloodrush", "Gain momentum while fighting under pressure."),
-    AETHER_SHIFT("Aether Shift", "Phase through danger with mobility."),
-    IRON_STOMACH("Iron Stomach", "Convert food and scraps into endurance.");
+    METAL_JAW("Metal Jaw", "Base: consume any item for mastery. Awakening: gain stronger nourishment and regen bursts."),
+    WIND_STEP("Wind Step", "Base: gain mastery by sprinting. Awakening: keep swift movement with controlled aerial hops."),
+    STONE_SKIN("Stone Skin", "Base: gain mastery while tanking hits. Awakening: consistent damage reduction and sturdy defense."),
+    FLAME_HEART("Flame Heart", "Base: gain mastery through combat. Awakening: ignite enemies and resist flames."),
+    TIDE_CALLER("Tide Caller", "Base: gain mastery by swimming. Awakening: superior underwater control and breathing."),
+    SHADOW_VEIL("Shadow Veil", "Base: mastery from sneaking and stealth. Awakening: maintain invisibility and evasive play."),
+    THUNDER_PULSE("Thunder Pulse", "Base: mastery from melee pressure. Awakening: occasional lightning-empowered strikes."),
+    NATURE_TOUCH("Nature Touch", "Base: mastery from harvesting natural blocks. Awakening: faster growth utility and regeneration moments."),
+    FROST_BLOOM("Frost Bloom", "Base: mastery while moving on frozen terrain. Awakening: cold resistance and controlled slowing aura."),
+    SUNFORGE("Sunforge", "Base: mastery from daylight mining. Awakening: efficient gathering and daytime momentum."),
+    MOONLIT_HUNTER("Moonlit Hunter", "Base: mastery from night combat. Awakening: sharper senses and stronger nocturnal combat."),
+    ARCANE_ECHO("Arcane Echo", "Base: convert XP gains into mastery. Awakening: better utility luck and magical sustain."),
+    BEAST_BOND("Beast Bond", "Base: mastery through interacting with animals. Awakening: supportive regeneration and village affinity."),
+    VOID_GLIDE("Void Glide", "Base: mastery from surviving falls and gliding. Awakening: reliable fall control and drift safety."),
+    CRYSTAL_MIND("Crystal Mind", "Base: mastery from crystal-rich blocks. Awakening: clarity buffs and burst haste windows."),
+    GRAVITY_WELL("Gravity Well", "Base: mastery from pressure combat. Awakening: moderated knockback control and jump control."),
+    STORM_EYE("Storm Eye", "Base: mastery during storms and battle. Awakening: weather-adapted breathing and charged bursts."),
+    BLOODRUSH("Bloodrush", "Base: mastery from aggressive combat flow. Awakening: measured low-health damage boost."),
+    AETHER_SHIFT("Aether Shift", "Base: mastery while gliding and surviving falls. Awakening: movement precision and mobility windows."),
+    IRON_STOMACH("Iron Stomach", "Base: mastery from consuming items and meals. Awakening: steady saturation and absorption control.");
 
     private final String displayName;
     private final String description;
