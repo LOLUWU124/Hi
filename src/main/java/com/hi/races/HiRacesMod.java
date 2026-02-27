@@ -202,7 +202,10 @@ public class HiRacesMod implements ModInitializer {
             PhantomState state = new PhantomState();
             state.returnPos = player.getPos();
             state.worldKey = player.getWorld().getRegistryKey();
-            state.bodyId = spawnBody(player).getUuid();
+            ArmorStandEntity body = spawnBody(player);
+            state.bodyId = body.getUuid();
+            state.bodyChunkX = body.getBlockX() >> 4;
+            state.bodyChunkZ = body.getBlockZ() >> 4;
             state.crouchReleased = false;
             PHANTOM_STATES.put(player.getUuid(), state);
 
@@ -228,10 +231,6 @@ public class HiRacesMod implements ModInitializer {
     private void registerPhantomBodyDeathWatcher() {
         ServerTickEvents.END_SERVER_TICK.register(server -> PHANTOM_STATES.entrySet().removeIf(entry -> {
             ServerPlayerEntity player = server.getPlayerManager().getPlayer(entry.getKey());
-            if (player == null) {
-                return true;
-            }
-
             PhantomState state = entry.getValue();
             ServerWorld world = server.getWorld(state.worldKey);
             if (world == null) {
@@ -239,15 +238,22 @@ public class HiRacesMod implements ModInitializer {
             }
 
             if (world.getEntity(state.bodyId) == null) {
-                if (player.interactionManager.getGameMode() == GameMode.SPECTATOR) {
-                    player.changeGameMode(GameMode.SURVIVAL);
+                if (!world.isChunkLoaded(state.bodyChunkX, state.bodyChunkZ)) {
+                    return false;
                 }
-                player.damage(player.getDamageSources().genericKill(), Float.MAX_VALUE);
-                player.sendMessage(Text.literal("Your body was destroyed while you were a phantom."), false);
-                return true;
+                state.bodyDestroyed = true;
             }
 
-            return false;
+            if (!state.bodyDestroyed || player == null) {
+                return false;
+            }
+
+            if (player.interactionManager.getGameMode() == GameMode.SPECTATOR) {
+                player.changeGameMode(GameMode.SURVIVAL);
+            }
+            player.damage(player.getDamageSources().genericKill(), Float.MAX_VALUE);
+            player.sendMessage(Text.literal("Your body was destroyed while you were a phantom."), false);
+            return true;
         }));
     }
 
@@ -293,6 +299,9 @@ public class HiRacesMod implements ModInitializer {
         Vec3d returnPos;
         net.minecraft.registry.RegistryKey<World> worldKey;
         UUID bodyId;
+        int bodyChunkX;
+        int bodyChunkZ;
         boolean crouchReleased;
+        boolean bodyDestroyed;
     }
 }
