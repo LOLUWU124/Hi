@@ -14,76 +14,59 @@ A Fabric server mod that adds a `/race` admin command and six custom races:
 ### Requirements
 
 - Java 21
-- Gradle 8.10+ (older Gradle versions can fail with Fabric Loom API errors)
-- Internet access to Maven repositories (Fabric + Maven Central)
+- Gradle 8.10+
+- Internet access to Fabric/Maven repositories
 
-### Command
-
-```bash
-JAVA_HOME=$HOME/.local/share/mise/installs/java/21.0.2 PATH=$JAVA_HOME/bin:$PATH gradle clean build
-```
-
-### Install Gradle and Maven
-
-If you meant **how to install the build tools**:
-
-- Ubuntu/Debian:
-
-```bash
-sudo apt update
-sudo apt install -y gradle maven
-```
-
-- macOS (Homebrew):
-
-```bash
-brew install gradle maven
-```
-
-- Windows (winget):
-
-```powershell
-winget install Gradle.Gradle
-winget install Apache.Maven
-```
-
-Check versions:
-
-```bash
-gradle -v
-mvn -v
-```
-
-> This Fabric mod is built with **Gradle**. Maven is optional unless you want to publish/install the built jar into a local Maven repo.
-
-### Install this mod artifact into local Maven (optional)
-
-After building the jar, you can install it into local Maven cache:
-
-```bash
-mvn install:install-file   -Dfile=build/libs/hi-races-1.0.0.jar   -DgroupId=com.hi   -DartifactId=hi-races   -Dversion=1.0.0   -Dpackaging=jar
-```
-
-
-If you already have Java 21 selected globally, this also works:
+### Build command
 
 ```bash
 gradle clean build
 ```
 
-Output jar:
+Output jar will be in:
 
 - `build/libs/hi-races-<version>.jar`
 
+## Your Maven error: file does not exist
 
-### Troubleshooting
+If Maven says:
 
+```text
+The specified file '...\build\libs\hi-races-1.0.0.jar' does not exist
+```
 
-### Fabric Loom setup (fix for your error)
+it means the jar either was not built yet, or the filename/version is different.
 
-You do **not** install Loom globally. Loom is a Gradle plugin loaded from `build.gradle`.
+### Fix steps (Windows PowerShell)
 
-1. Make sure plugin version is stable (already set in this repo):
+1. Build first:
+
+```powershell
+gradle clean build
+```
+
+2. Confirm actual jar name:
+
+```powershell
+Get-ChildItem .\build\libs\*.jar
+```
+
+3. Install using the exact file shown above:
+
+```powershell
+mvn install:install-file `
+  -Dfile="C:\path\to\project\build\libs\hi-races-1.0.0.jar" `
+  -DgroupId=com.hi `
+  -DartifactId=hi-races `
+  -Dversion=1.0.0 `
+  -Dpackaging=jar
+```
+
+> If the built jar has another version (example `hi-races-1.0.1.jar`), update both `-Dfile` and `-Dversion`.
+
+## Fabric Loom setup note
+
+You do **not** install Loom globally. It is a Gradle plugin configured in `build.gradle`:
 
 ```groovy
 plugins {
@@ -91,20 +74,7 @@ plugins {
 }
 ```
 
-2. Make sure `settings.gradle` contains Fabric Maven in `pluginManagement.repositories`.
-3. Use Java 21.
-4. Use Gradle 8.10+ (or run with the project wrapper if present).
-5. Build again: `gradle clean build`.
-
-If you still get `Problems.forNamespace(...)`, your Gradle runtime is too old for Loom; upgrade Gradle and retry.
-
-If build fails with:
-
-```
-Problems.forNamespace(java.lang.String)
-```
-
-Your Gradle runtime is too old for Fabric Loom. Upgrade to Gradle 8.10+ and rebuild.
+If you hit `Problems.forNamespace(...)`, update Gradle to 8.10+ and re-run build.
 
 ## Install on server
 
@@ -121,6 +91,4 @@ Examples:
 
 - `/race Steve giller`
 - `/race Alex nightling`
-- `/race Bob metal-jaw` (normalization handles dashes/spaces/underscores)
-
-The command includes suggestion completion and typo autocorrect.
+- `/race Bob metal-jaw`
