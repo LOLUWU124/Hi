@@ -33,7 +33,6 @@ import java.util.UUID;
 
 public class HiRacesMod implements ModInitializer {
     private static final String[] RACE_NAMES = {"giller", "nightling", "metaljaw", "fireborn", "swiftling", "phantom"};
-
     private static final Map<UUID, PhantomState> PHANTOM_STATES = new HashMap<>();
 
     @Override
@@ -62,7 +61,7 @@ public class HiRacesMod implements ModInitializer {
 
     private int executeRaceCommand(CommandContext<ServerCommandSource> context) {
         ServerPlayerEntity target = EntityArgumentType.getPlayer(context, "player");
-        String raceName = StringArgumentType.getString(context, "racename").trim().replace("_", "").replace("-", "").replace(" ", "");
+        String raceName = StringArgumentType.getString(context, "racename");
 
         Race race = Race.fromString(raceName).orElseGet(() -> Race.autoCorrect(raceName));
         if (race == null || race == Race.NONE) {
@@ -71,8 +70,9 @@ public class HiRacesMod implements ModInitializer {
         }
 
         RacePersistentState state = RacePersistentState.get(context.getSource().getServer());
+        Race previousRace = state.getRace(target.getUuid());
         state.setRace(target.getUuid(), race);
-        clearRaceEffects(target);
+        clearRaceEffects(target, previousRace);
 
         context.getSource().sendFeedback(() -> Text.literal("Set " + target.getName().getString() + " to race " + race.id()), true);
         target.sendMessage(Text.literal("Your race is now " + race.id() + "."), false);
@@ -100,11 +100,7 @@ public class HiRacesMod implements ModInitializer {
     private void handleGiller(ServerPlayerEntity player) {
         if (player.isSubmergedInWater()) {
             player.setAir(player.getMaxAir());
-            if (player.isSwimming()) {
-                Vec3d velocity = player.getVelocity();
-                player.setVelocity(velocity.x * 1.7D, velocity.y, velocity.z * 1.7D);
-                player.velocityModified = true;
-            }
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 40, 0, true, false));
             return;
         }
 
@@ -132,18 +128,12 @@ public class HiRacesMod implements ModInitializer {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 220, 1, true, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 220, 0, true, false));
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 220, 0, true, false));
-        } else {
-            player.removeStatusEffect(StatusEffects.SPEED);
-            player.removeStatusEffect(StatusEffects.STRENGTH);
-            player.removeStatusEffect(StatusEffects.NIGHT_VISION);
         }
     }
 
     private void handleSwiftling(ServerPlayerEntity player) {
         if (player.isSprinting()) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 40, 3, true, false));
-        } else {
-            player.removeStatusEffect(StatusEffects.SPEED);
         }
     }
 
@@ -261,13 +251,18 @@ public class HiRacesMod implements ModInitializer {
         }));
     }
 
-    private void clearRaceEffects(ServerPlayerEntity player) {
-        player.removeStatusEffect(StatusEffects.SPEED);
-        player.removeStatusEffect(StatusEffects.STRENGTH);
-        player.removeStatusEffect(StatusEffects.NIGHT_VISION);
-        player.removeStatusEffect(StatusEffects.FIRE_RESISTANCE);
+    private void clearRaceEffects(ServerPlayerEntity player, Race previousRace) {
+        if (previousRace == Race.PHANTOM) {
+            exitPhantom(player, true);
+        }
 
-        exitPhantom(player, true);
+        if (previousRace == Race.FIREBORN) {
+            player.removeStatusEffect(StatusEffects.FIRE_RESISTANCE);
+        }
+
+        if (previousRace == Race.GILLER) {
+            player.removeStatusEffect(StatusEffects.DOLPHINS_GRACE);
+        }
     }
 
     private void exitPhantom(ServerPlayerEntity player, boolean silent) {
