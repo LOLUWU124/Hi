@@ -36,6 +36,26 @@ Output jar:
 
 ### Troubleshooting
 
+
+### Fabric Loom setup (fix for your error)
+
+You do **not** install Loom globally. Loom is a Gradle plugin loaded from `build.gradle`.
+
+1. Make sure plugin version is stable (already set in this repo):
+
+```groovy
+plugins {
+    id 'fabric-loom' version '1.7.4'
+}
+```
+
+2. Make sure `settings.gradle` contains Fabric Maven in `pluginManagement.repositories`.
+3. Use Java 21.
+4. Use Gradle 8.10+ (or run with the project wrapper if present).
+5. Build again: `gradle clean build`.
+
+If you still get `Problems.forNamespace(...)`, your Gradle runtime is too old for Loom; upgrade Gradle and retry.
+
 If build fails with:
 
 ```
